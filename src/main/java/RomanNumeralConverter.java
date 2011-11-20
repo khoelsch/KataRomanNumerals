@@ -13,10 +13,15 @@ public class RomanNumeralConverter {
   static {
     arabicToRomanMap = new TreeMap<Integer, String>();
     arabicToRomanMap.put(1, "I");
+    arabicToRomanMap.put(5, "V");
+    arabicToRomanMap.put(10, "X");
+    arabicToRomanMap.put(50, "L");
+    arabicToRomanMap.put(100, "C");
+    arabicToRomanMap.put(1000, "M");
   }
 
   // the order of roman numeral in DESCENDING order
-  private final static int[] arabicOrder = {5, 1};
+  private final static int[] arabicOrder = {1000, 500, 100, 50, 10, 5, 1};
 
   public static String convert(int arabicNumber) {
     final StringBuilder result = new StringBuilder();

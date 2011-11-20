@@ -31,16 +31,30 @@ public class RomanNumeralConverter {
       // calculate, how many times can this number "fit in"
       final int multiples = rest / arabicValue;
 
-      // print out result as roman numeral
-      final String romanNumeral = arabicToRomanMap.get(arabicValue);
-      for (int i=0; i<multiples; ++i) {
-        result.append(romanNumeral);
-      }
-
+        if (isSpecialCase(arabicValue, multiples)) {
+          handleSpecialCase();
+        } else {
+          handleNormalCase(result, arabicValue, multiples);
+        }
+        
       // calculate rest
       rest -= multiples * arabicValue;
     }
 
     return result.toString();
+  }
+
+  private static void handleSpecialCase() {
+  }
+
+  private static void handleNormalCase(StringBuilder result, int arabicValue, int multiples) {
+    final String romanNumeral = arabicToRomanMap.get(arabicValue);
+    for (int i=0; i<multiples; ++i) {
+      result.append(romanNumeral);
+    }
+  }
+
+  private static boolean isSpecialCase(final int arabicValue, final int multiples) {
+    return false;//(multiples == 4) // TODO
   }
 }

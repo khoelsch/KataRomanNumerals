@@ -1,20 +1,30 @@
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class RomanNumeralConverterTest {
   @Test
   public void convertSimplest() {
-    Assert.assertEquals("I", RomanNumeralConverter.convert(1));
-    Assert.assertEquals("II", RomanNumeralConverter.convert(2));
-    Assert.assertEquals("III", RomanNumeralConverter.convert(3));
+    assertEquals("I", RomanNumeralConverter.convert(1));
+    assertEquals("II", RomanNumeralConverter.convert(2));
+    assertEquals("III", RomanNumeralConverter.convert(3));
   }
 
   @Test
   public void convertSimpleNoSpecialCases() {
-    Assert.assertEquals("VI", RomanNumeralConverter.convert(6));
-    Assert.assertEquals("XI", RomanNumeralConverter.convert(11));
-    Assert.assertEquals("LI", RomanNumeralConverter.convert(51));
-    Assert.assertEquals("CI", RomanNumeralConverter.convert(101));
-    Assert.assertEquals("MI", RomanNumeralConverter.convert(1001));
+    assertEquals("VI", RomanNumeralConverter.convert(6));
+    assertEquals("XI", RomanNumeralConverter.convert(11));
+    assertEquals("LI", RomanNumeralConverter.convert(51));
+    assertEquals("CI", RomanNumeralConverter.convert(101));
+    assertEquals("MI", RomanNumeralConverter.convert(1001));
+  }
+
+  @Test
+  @Ignore
+  public void convertSpecialCases() {
+    assertEquals("IV", RomanNumeralConverter.convert(4));
   }
 }

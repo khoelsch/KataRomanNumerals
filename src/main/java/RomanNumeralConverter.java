@@ -29,36 +29,38 @@ public class RomanNumeralConverter {
 
   public static String convert(int arabicNumber) {
     resultBuilder = new StringBuilder();
-    int rest = arabicNumber;
+    int restToConvert = arabicNumber;
 
     for (int arabicToConvert : arabicsToConvert) {
-      // calculate, how many times can this number "fit in"
-      final int multiples = rest / arabicToConvert;
+      final int multiples = restToConvert / arabicToConvert; // calculate, how many times can this number "fit in"
 
+      int converted = 0;
       if (isSpecialCase(arabicToConvert, multiples)) {
-        convertSpecialCase();
+        converted = convertSpecialCase();
       } else {
-        convertNormalCase(arabicToConvert, multiples);
+        converted = convertNormalCase(arabicToConvert, multiples);
       }
 
-      // calculate rest
-      rest -= multiples * arabicToConvert;
+      restToConvert -= converted;
     }
 
     return resultBuilder.toString();
   }
 
-  private static void convertSpecialCase() {
+  private static boolean isSpecialCase(final int arabicValue, final int multiples) {
+    return false;//(multiples == 4) // TODO
   }
 
-  private static void convertNormalCase(int arabicValue, int multiples) {
+  private static int convertSpecialCase() {
+    return 42; // TODO
+  }
+
+  private static int convertNormalCase(int arabicValue, int multiples) {
     final String romanNumeral = arabicToRomanMap.get(arabicValue);
     for (int i = 0; i < multiples; ++i) {
       resultBuilder.append(romanNumeral);
     }
-  }
 
-  private static boolean isSpecialCase(final int arabicValue, final int multiples) {
-    return false;//(multiples == 4) // TODO
+    return multiples * arabicValue;
   }
 }

@@ -1,3 +1,5 @@
+import com.sun.jndi.ldap.ext.StartTlsResponseImpl;
+
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -21,36 +23,38 @@ public class RomanNumeralConverter {
   }
 
   // the order of roman numeral in DESCENDING order
-  private final static int[] arabicOrder = {1000, 500, 100, 50, 10, 5, 1};
+  private final static int[] arabicsToConvert = {1000, 500, 100, 50, 10, 5, 1};
+
+  private static StringBuilder resultBuilder;
 
   public static String convert(int arabicNumber) {
-    final StringBuilder result = new StringBuilder();
+    resultBuilder = new StringBuilder();
     int rest = arabicNumber;
 
-    for (int arabicValue : arabicOrder) {
+    for (int arabicToConvert : arabicsToConvert) {
       // calculate, how many times can this number "fit in"
-      final int multiples = rest / arabicValue;
+      final int multiples = rest / arabicToConvert;
 
-        if (isSpecialCase(arabicValue, multiples)) {
-          handleSpecialCase();
-        } else {
-          handleNormalCase(result, arabicValue, multiples);
-        }
-        
+      if (isSpecialCase(arabicToConvert, multiples)) {
+        convertSpecialCase();
+      } else {
+        convertNormalCase(arabicToConvert, multiples);
+      }
+
       // calculate rest
-      rest -= multiples * arabicValue;
+      rest -= multiples * arabicToConvert;
     }
 
-    return result.toString();
+    return resultBuilder.toString();
   }
 
-  private static void handleSpecialCase() {
+  private static void convertSpecialCase() {
   }
 
-  private static void handleNormalCase(StringBuilder result, int arabicValue, int multiples) {
+  private static void convertNormalCase(int arabicValue, int multiples) {
     final String romanNumeral = arabicToRomanMap.get(arabicValue);
-    for (int i=0; i<multiples; ++i) {
-      result.append(romanNumeral);
+    for (int i = 0; i < multiples; ++i) {
+      resultBuilder.append(romanNumeral);
     }
   }
 

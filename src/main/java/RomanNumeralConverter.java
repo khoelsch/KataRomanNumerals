@@ -1,5 +1,7 @@
-import com.sun.jndi.ldap.ext.StartTlsResponseImpl;
-
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -11,7 +13,6 @@ import java.util.TreeMap;
 public class RomanNumeralConverter {
   // mapping of arabic number to roman numeral
   private final static SortedMap<Integer, String> arabicToRomanMap;
-
   static {
     arabicToRomanMap = new TreeMap<Integer, String>();
     arabicToRomanMap.put(1, "I");
@@ -25,42 +26,61 @@ public class RomanNumeralConverter {
   // the order of roman numeral in DESCENDING order
   private final static int[] arabicsToConvert = {1000, 500, 100, 50, 10, 5, 1};
 
+  // roman numerals which are regardeed by the "subtraction rule"
+  private final static Map<String,List<String>> subtrahendToMinuend;
+  static {
+    subtrahendToMinuend = new HashMap<String, List<String>>();
+    subtrahendToMinuend.put("I", Arrays.asList("V", "X"));
+    subtrahendToMinuend.put("X", Arrays.asList("L", "C"));
+    subtrahendToMinuend.put("C", Arrays.asList("D", "M"));
+  }
+
   private static StringBuilder resultBuilder;
 
   public static String convert(int arabicNumber) {
     resultBuilder = new StringBuilder();
+
     int restToConvert = arabicNumber;
+    for (int arabicBaseValue : arabicsToConvert) {
+      final int multiples = restToConvert / arabicBaseValue; // calculate, how many times can this number "fit in"
 
-    for (int arabicToConvert : arabicsToConvert) {
-      final int multiples = restToConvert / arabicToConvert; // calculate, how many times can this number "fit in"
-
-      int converted = 0;
-      if (isSpecialCase(arabicToConvert, multiples)) {
-        converted = convertSpecialCase();
+      int convertedArabicValue = 0;
+      if (isSpecialCase(arabicBaseValue, restToConvert)) {
+        convertedArabicValue = convertSpecialCase(arabicBaseValue);
       } else {
-        converted = convertNormalCase(arabicToConvert, multiples);
+        convertedArabicValue = convertNormalCase(arabicBaseValue, multiples);
       }
 
-      restToConvert -= converted;
+      restToConvert -= convertedArabicValue;
     }
 
     return resultBuilder.toString();
   }
 
-  private static boolean isSpecialCase(final int arabicValue, final int multiples) {
-    return false;//(multiples == 4) // TODO
+  private static boolean isSpecialCase(final int arabicBaseValue, final int arabicValueToConvert) {
+    // can the value to be converted be expressed as a difference between
+    // a higher roman numeral and the current roman Numeral?
+
+    final String romanNumeral = arabicToRomanMap.get(arabicValueToConvert);
+    //final List<String> subtrahends =
+
+    //return (multiples == 4)
+    //        && (arabicValue <= 10);
+    return false;
   }
 
-  private static int convertSpecialCase() {
-    return 42; // TODO
+  private static int convertSpecialCase(int arabicToConvert) {
+
+
+    return 42;
   }
 
-  private static int convertNormalCase(int arabicValue, int multiples) {
-    final String romanNumeral = arabicToRomanMap.get(arabicValue);
+  private static int convertNormalCase(int arabicBaseValue, int multiples) {
+    final String romanNumeral = arabicToRomanMap.get(arabicBaseValue);
     for (int i = 0; i < multiples; ++i) {
       resultBuilder.append(romanNumeral);
     }
 
-    return multiples * arabicValue;
+    return multiples * arabicBaseValue;
   }
 }

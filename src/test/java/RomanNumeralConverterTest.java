@@ -35,7 +35,7 @@ public class RomanNumeralConverterTest {
   }
 
   @Test
-  @Ignore
+  @Ignore("Subtraction rule not supported yet.")
   public void convertSpecialCaseForRomanNumeralFive() {
     assertEquals("IV", RomanNumeralConverter.convert(4));
   }

@@ -57,6 +57,8 @@ public class RomanNumeralConverter {
     return resultBuilder.toString();
   }
 
+  private List<Integer>
+
   private static boolean isSpecialCase(final int arabicBaseValue, final int arabicValueToConvert) {
     // can the value to be converted be expressed as a difference between
     // a higher roman numeral and the current roman Numeral?
